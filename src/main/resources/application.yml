@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: demo
+  profiles:
+    active: dev
+  # jackson时间格式化
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+
+server:
+  port: 8001
+  tomcat:
+    basedir: /tmp/tomcat
+  servlet:
+    context-path: /task-center
