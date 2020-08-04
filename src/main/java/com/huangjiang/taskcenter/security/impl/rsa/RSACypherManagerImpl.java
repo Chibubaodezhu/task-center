@@ -9,9 +9,6 @@ import javax.crypto.Cipher;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
-/**
- * Created by liming on 2017/4/6.
- */
 public class RSACypherManagerImpl implements CypherManager {
     private static Logger logger = LoggerFactory.getLogger(RSACypherManagerImpl.class);
 

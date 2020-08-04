@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huangjiang.taskcenter.orm.mapper.PermissionMapper">
+
+    <select id="selectByPath" parameterType="java.lang.String" resultType="com.huangjiang.taskcenter.orm.entity.PermissionEntity">
+        select t1.id, t1.permission_code permissionCode, t1.permission_name permissionName
+        from permission t1, request_path_permission_relation t2, request_path t3
+        where t1.id = t2.permission_id and t2.url_id = t3.id and t3.url like concat('%', concat(#{url}, '%'))
+    </select>
+</mapper>
