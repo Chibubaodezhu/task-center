@@ -27,7 +27,12 @@ public class PassportController {
     @PostMapping("/register")
     public JsonResult<Boolean> register(@RequestBody UserParam param) throws Exception {
         logger.info("用户注册, param: {}", param);
-        return ResultTool.success(passportService.register(param));
+        try {
+            return ResultTool.success(passportService.register(param));
+        } catch (Exception e) {
+            logger.error("用户注册异常", e);
+            return ResultTool.fail(e.getMessage());
+        }
     }
 
     /**

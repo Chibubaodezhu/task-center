@@ -3,7 +3,7 @@
 <mapper namespace="com.huangjiang.taskcenter.orm.mapper.VerifyCodeMapper">
 
     <insert id="insert" parameterType="com.huangjiang.taskcenter.orm.entity.VerifyCodeEntity">
-        insert into verify_code(id, email, code, purpose, createdAt, isUsed)
+        insert into verify_code(id, email, code, purpose, created_at, is_used)
         values (
         #{id,jdbcType=VARCHAR},
         #{email,jdbcType=VARCHAR},
@@ -13,5 +13,17 @@
         #{isUsed,jdbcType=CHAR}
         )
     </insert>
+
+    <select id="selectByMail" parameterType="java.lang.String" resultType="com.huangjiang.taskcenter.orm.entity.VerifyCodeEntity">
+        select id, email, code, purpose, created_at createdAt, is_used isUsed
+        from verify_code
+        where email = #{email} and is_used = '0'
+        order by created_at desc limit 1
+    </select>
+
+    <update id="updateStatus" parameterType="string">
+        update verify_code set is_used = '1'
+        where id = #{id}
+    </update>
 
 </mapper>
