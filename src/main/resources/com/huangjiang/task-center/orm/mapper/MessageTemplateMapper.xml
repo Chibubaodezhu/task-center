@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huangjiang.taskcenter.orm.mapper.MessageTemplateMapper">
+
+    <insert id="insert" parameterType="com.huangjiang.taskcenter.orm.entity.MessageTemplateEntity">
+        insert into message_template(id, code, description, title, content, is_html, creator, created_at, updater, updated_at)
+        values (
+        #{id,jdbcType=VARCHAR},
+        #{code,jdbcType=VARCHAR},
+        #{description,jdbcType=VARCHAR},
+        #{title,jdbcType=VARCHAR},
+        #{content,jdbcType=VARCHAR},
+        #{is_html,jdbcType=VARCHAR},
+        #{creator,jdbcType=VARCHAR},
+        #{created_at,jdbcType=BIGINT},
+        #{updater,jdbcType=VARCHAR},
+        #{updated_at,jdbcType=BIGINT}
+        )
+    </insert>
+
+    <select id="selectByCode" parameterType="java.lang.String" resultType="com.huangjiang.taskcenter.orm.entity.MessageTemplateEntity">
+        select id, code, description, title, content, is_html isHtml, creator, created_at createdAt, updater, updated_at updatedAt
+        from message_template
+        where code = #{code}
+    </select>
+
+</mapper>

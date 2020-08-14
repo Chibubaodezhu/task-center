@@ -13,6 +13,11 @@ spring:
       max-wait: 60000
       # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位毫秒
       time-between-eviction-runs-millis: 60000
+  mail:
+    host: smtp.qq.com
+    username: 1029598070@qq.com
+    password: gljdclohnltubbed
+    protocol: smtp
 
 
 server:

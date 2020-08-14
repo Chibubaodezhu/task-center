@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huangjiang.taskcenter.orm.mapper.VerifyCodeMapper">
+
+    <insert id="insert" parameterType="com.huangjiang.taskcenter.orm.entity.VerifyCodeEntity">
+        insert into verify_code(id, email, code, purpose, createdAt, isUsed)
+        values (
+        #{id,jdbcType=VARCHAR},
+        #{email,jdbcType=VARCHAR},
+        #{code,jdbcType=VARCHAR},
+        #{purpose,jdbcType=VARCHAR},
+        #{createdAt,jdbcType=BIGINT},
+        #{isUsed,jdbcType=CHAR}
+        )
+    </insert>
+
+</mapper>
