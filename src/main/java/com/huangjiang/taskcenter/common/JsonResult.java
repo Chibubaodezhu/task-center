@@ -30,6 +30,11 @@ public class JsonResult<T> implements Serializable {
         this.data = data;
     }
 
+    public JsonResult(boolean success, String msg) {
+        this.success = success;
+        this.errorMsg = msg;
+    }
+
     public JsonResult(boolean success, ResultCode resultEnum, T data) {
         this.success = success;
         this.errorCode = success ? ResultCode.SUCCESS.getCode() : (resultEnum == null ? ResultCode.COMMON_FAIL.getCode() : resultEnum.getCode());

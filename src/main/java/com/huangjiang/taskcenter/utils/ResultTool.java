@@ -19,5 +19,9 @@ public class ResultTool {
     public static JsonResult fail(ResultCode resultEnum) {
         return new JsonResult(false, resultEnum);
     }
+
+    public static JsonResult fail(String msg) {
+        return new JsonResult(false, msg);
+    }
 }
 
