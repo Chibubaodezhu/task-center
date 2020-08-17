@@ -43,18 +43,7 @@ public class PassportService {
         if (StringUtils.isEmpty(email)) {
             throw new Exception("邮箱不能为空!");
         }
-        VerifyCodeEntity verifyCodeEntity = verifyCodeMapper.selectByMail(email);
-        if (verifyCodeEntity == null) {
-            throw new Exception("请先获取验证码");
-        }
-        if (!verifyCodeEntity.getCode().equals(param.getVerificationCode())) {
-            throw new Exception("验证码不正确");
-        }
-        long time = verifyCodeEntity.getCreatedAt();
-        long now = System.currentTimeMillis();
-        if ((now - time) > (5 * 60 * 1000)) {
-            throw new Exception("验证码已失效，请重新获取");
-        }
+        VerifyCodeEntity verifyCodeEntity = this.codeVerify(email, param.getVerificationCode());
         int exist = userMapper.exist(email);
         if (exist == 0) {
             UserEntity userEntity = new UserEntity();
@@ -63,6 +52,7 @@ public class PassportService {
             String id = UUID.randomUUID().toString();
             userEntity.setId(id);
             userEntity.setStatus(Constants.USER_STATUS_NORMAL);
+            userEntity.setCreatedAt(System.currentTimeMillis());
             int count = verifyCodeMapper.updateStatus(verifyCodeEntity.getId());
             if (count <= 0) {
                 logger.error("更新验证码状态失败");
@@ -71,6 +61,44 @@ public class PassportService {
         } else {
             throw new Exception("用户已注册，请尝试找回密码");
         }
+    }
+
+    @Transactional
+    public Boolean forgetPassword(UserParam param) throws Exception {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String email = param.getEmail();
+        if (StringUtils.isEmpty(email)) {
+            throw new Exception("邮箱不能为空!");
+        }
+        VerifyCodeEntity verifyCodeEntity = this.codeVerify(email, param.getVerificationCode());
+        UserEntity userEntity = userMapper.selectByEmail(email);
+        if (userEntity == null) {
+            throw new Exception("未查询到该用户，请先注册");
+        } else {
+            int count = verifyCodeMapper.updateStatus(verifyCodeEntity.getId());
+            if (count <= 0) {
+                logger.error("更新验证码状态失败");
+            }
+            userEntity.setPassword(passwordEncoder.encode(param.getPassword()));
+            userEntity.setUpdatedAt(System.currentTimeMillis());
+            return userMapper.update(userEntity) > 0;
+        }
+    }
+
+    public VerifyCodeEntity codeVerify(String email, String verificationCode) throws Exception {
+        VerifyCodeEntity verifyCodeEntity = verifyCodeMapper.selectByMail(email);
+        if (verifyCodeEntity == null) {
+            throw new Exception("请先获取验证码");
+        }
+        if (!verifyCodeEntity.getCode().equals(verificationCode)) {
+            throw new Exception("验证码不正确");
+        }
+        long time = verifyCodeEntity.getCreatedAt();
+        long now = System.currentTimeMillis();
+        if ((now - time) > (5 * 60 * 1000)) {
+            throw new Exception("验证码已失效，请重新获取");
+        }
+        return verifyCodeEntity;
     }
 
     public boolean getVerifyCode(String email, String purpose) throws Exception {

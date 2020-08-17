@@ -20,6 +20,10 @@ public class UserEntity {
 
     private String info;
 
+    private long createdAt;
+
+    private long updatedAt;
+
     public String getId() {
         return id;
     }
@@ -90,5 +94,21 @@ public class UserEntity {
 
     public void setInfo(String info) {
         this.info = info;
+    }
+
+    public long getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(long createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public long getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(long updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }
