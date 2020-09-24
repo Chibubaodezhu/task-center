@@ -19,11 +19,12 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        String userId = (String) request.getAttribute("username");
+        String userId = request.getParameterMap().get("username")[0];
         HttpSession session = request.getSession();
         session.setAttribute(Constants.USER_ID, userId);
         //返回json数据
         JsonResult result = ResultTool.success();
+        result.setData(userId);
         //处理编码方式，防止中文乱码的情况
         response.setContentType("text/json;charset=utf-8");
         //塞到HttpServletResponse中返回给前台

@@ -2,9 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.huangjiang.taskcenter.orm.mapper.PermissionMapper">
 
-    <select id="selectByPath" parameterType="java.lang.String" resultType="com.huangjiang.taskcenter.orm.entity.PermissionEntity">
-        select t1.id, t1.permission_code permissionCode, t1.permission_name permissionName
-        from permission t1, request_path_permission_relation t2, request_path t3
-        where t1.id = t2.permission_id and t2.url_id = t3.id and t3.url like concat('%', concat(#{url}, '%'))
+    <select id="queryRoleByPath" parameterType="string" resultType="com.huangjiang.taskcenter.orm.entity.RoleEntity">
+        select * from role r, role_permission rp, permission m
+        where r.id = rp.role_id and rp.permission_id = m.id
+        and m.url like concat('%', concat(#{url}, '%'))
+    </select>
+
+    <select id="queryUserRole" parameterType="string" resultType="com.huangjiang.taskcenter.orm.entity.RoleEntity">
+        select * from role r, user_role ur
+        where r.id = ur.role_id and ur.user_id = #{userId}
     </select>
 </mapper>

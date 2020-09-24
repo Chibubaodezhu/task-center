@@ -2,6 +2,7 @@ package com.huangjiang.taskcenter.config.handler;
 
 import com.huangjiang.taskcenter.common.Constants;
 import com.huangjiang.taskcenter.orm.entity.PermissionEntity;
+import com.huangjiang.taskcenter.orm.entity.RoleEntity;
 import com.huangjiang.taskcenter.service.passport.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
@@ -12,6 +13,7 @@ import org.springframework.security.web.access.intercept.FilterInvocationSecurit
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -45,14 +47,14 @@ public class CustomSecurityMetadataSource implements FilterInvocationSecurityMet
             }
         }
         //查询具体某个接口的权限
-        List<PermissionEntity> permissionList = permissionService.selectByPath(requestUrl);
-        if (permissionList == null || permissionList.size() == 0) {
+        List<RoleEntity> roleEntities = permissionService.queryByPath(requestUrl);
+        if (CollectionUtils.isEmpty(roleEntities)) {
             //请求路径没有配置权限，表明该请求接口可以任意访问
             return null;
         }
-        String[] attributes = new String[permissionList.size()];
-        for (int i = 0; i < permissionList.size(); i++) {
-            attributes[i] = permissionList.get(i).getPermissionCode();
+        String[] attributes = new String[roleEntities.size()];
+        for (int i = 0; i < roleEntities.size(); i++) {
+            attributes[i] = roleEntities.get(i).getCode();
         }
         return SecurityConfig.createList(attributes);
     }
