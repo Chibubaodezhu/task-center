@@ -25,12 +25,23 @@ public class PassportController {
      * @return 注册结果
      */
     @PostMapping("/register")
-    public JsonResult<Boolean> register(@RequestBody UserParam param) throws Exception {
+    public JsonResult<Boolean> register(@RequestBody UserParam param) {
         logger.info("用户注册, param: {}", param);
         try {
             return ResultTool.success(passportService.register(param));
         } catch (Exception e) {
             logger.error("用户注册异常", e);
+            return ResultTool.fail(e.getMessage());
+        }
+    }
+
+    @PostMapping("/forget_password")
+    public JsonResult<Boolean> forgetPassword(@RequestBody UserParam param) {
+        logger.info("找回密码, param:{}", param);
+        try {
+            return ResultTool.success(passportService.forgetPassword(param));
+        } catch (Exception e) {
+            logger.error("用户找回密码异常", e);
             return ResultTool.fail(e.getMessage());
         }
     }

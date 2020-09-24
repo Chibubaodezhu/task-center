@@ -3,7 +3,7 @@
 <mapper namespace="com.huangjiang.taskcenter.orm.mapper.UserMapper">
 
     <insert id="insert" parameterType="com.huangjiang.taskcenter.orm.entity.UserEntity">
-        insert into user(id, password, apartment_id, status, mobile, email, cn, manager, info)
+        insert into user(id, password, apartment_id, status, mobile, email, cn, manager, info, created_at, updated_at)
         values (
         #{id,jdbcType=VARCHAR},
         #{password,jdbcType=VARCHAR},
@@ -13,7 +13,9 @@
         #{email,jdbcType=VARCHAR},
         #{cn,jdbcType=VARCHAR},
         #{manager,jdbcType=VARCHAR},
-        #{info,jdbcType=VARCHAR}
+        #{info,jdbcType=VARCHAR},
+        #{createdAt,jdbcType=BIGINT},
+        #{updatedAt,jdbcType=BIGINT}
         )
     </insert>
 
@@ -25,28 +27,31 @@
         update user
         <trim prefix="set" suffixOverrides=",">
             <if test="password != null and password != ''">
-                password = #{password,jdbcType=VARCHAR}
+                password = #{password,jdbcType=VARCHAR},
             </if>
             <if test="apartmentId != null and apartmentId != ''">
-                password = #{password,jdbcType=VARCHAR}
+                apartment_id = #{apartmentId,jdbcType=VARCHAR},
             </if>
             <if test="status != null and status != ''">
-                password = #{password,jdbcType=VARCHAR}
+                status = #{status,jdbcType=VARCHAR},
             </if>
             <if test="mobile != null and mobile != ''">
-                password = #{password,jdbcType=VARCHAR}
+                mobile = #{mobile,jdbcType=VARCHAR},
             </if>
             <if test="email != null and email != ''">
-                password = #{password,jdbcType=VARCHAR}
+                email = #{email,jdbcType=VARCHAR},
             </if>
             <if test="cn != null and cn != ''">
-                password = #{password,jdbcType=VARCHAR}
+                cn = #{cn,jdbcType=VARCHAR},
             </if>
             <if test="manager != null and manager != ''">
-                password = #{password,jdbcType=VARCHAR}
+                manager = #{manager,jdbcType=VARCHAR},
             </if>
             <if test="info != null and info != ''">
-                password = #{password,jdbcType=VARCHAR}
+                info = #{info,jdbcType=VARCHAR},
+            </if>
+            <if test="updatedAt != null">
+                updated_at = #{updatedAt,jdbcType=BIGINT},
             </if>
         </trim>
         where id = #{id,jdbcType=VARCHAR}
@@ -57,7 +62,7 @@
     </select>
 
     <select id="selectByEmail" parameterType="java.lang.String" resultType="com.huangjiang.taskcenter.orm.entity.UserEntity">
-        select id, password, apartment_id apartmentId, status, mobile, email, cn, manager, info
+        select id, password, apartment_id apartmentId, status, mobile, email, cn, manager, info, created_at createdAt, updated_at updatedAt
         from user where email = #{email}
     </select>
 </mapper>

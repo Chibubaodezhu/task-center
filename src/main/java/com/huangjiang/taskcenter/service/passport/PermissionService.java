@@ -1,6 +1,7 @@
 package com.huangjiang.taskcenter.service.passport;
 
 import com.huangjiang.taskcenter.orm.entity.PermissionEntity;
+import com.huangjiang.taskcenter.orm.entity.RoleEntity;
 import com.huangjiang.taskcenter.orm.mapper.PermissionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ public class PermissionService {
     @Autowired
     private PermissionMapper permissionMapper;
 
-    public List<PermissionEntity> selectByPath(String requestUrl) {
-        return permissionMapper.selectByPath(requestUrl);
+    public List<RoleEntity> queryByPath(String requestUrl) {
+        return permissionMapper.queryRoleByPath(requestUrl);
     }
 }
