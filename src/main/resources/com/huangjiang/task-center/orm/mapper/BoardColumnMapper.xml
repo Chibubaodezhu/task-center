@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huangjiang.taskcenter.orm.mapper.BoardColumnMapper" >
+  <resultMap id="BaseResultMap" type="com.huangjiang.taskcenter.orm.entity.BoardColumn" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="board_id" property="boardId" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="definition" property="definition" jdbcType="VARCHAR" />
+    <result column="is_delete" property="isDelete" jdbcType="VARCHAR" />
+    <result column="created_at" property="createdAt" jdbcType="BIGINT" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="updated_at" property="updatedAt" jdbcType="BIGINT" />
+    <result column="updater" property="updater" jdbcType="VARCHAR" />
+    <result column="position" property="position" jdbcType="DECIMAL" />
+    <result column="lock_state" property="lockState" jdbcType="VARCHAR" />
+    <result column="hide_state" property="hideState" jdbcType="VARCHAR" />
+    <result column="encrypt_state" property="encryptState" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, board_id, type, title, definition, is_delete, created_at, creator, updated_at, 
+    updater, position, lock_state, hide_state, encrypt_state
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.huangjiang.taskcenter.orm.entity.BoardColumnExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from board_column
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from board_column
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from board_column
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.huangjiang.taskcenter.orm.entity.BoardColumnExample" >
+    delete from board_column
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.huangjiang.taskcenter.orm.entity.BoardColumn" >
+    insert into board_column (id, board_id, type, 
+      title, definition, is_delete, 
+      created_at, creator, updated_at, 
+      updater, position, lock_state, 
+      hide_state, encrypt_state)
+    values (#{id,jdbcType=VARCHAR}, #{boardId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{definition,jdbcType=VARCHAR}, #{isDelete,jdbcType=VARCHAR}, 
+      #{createdAt,jdbcType=BIGINT}, #{creator,jdbcType=VARCHAR}, #{updatedAt,jdbcType=BIGINT}, 
+      #{updater,jdbcType=VARCHAR}, #{position,jdbcType=DECIMAL}, #{lockState,jdbcType=VARCHAR}, 
+      #{hideState,jdbcType=VARCHAR}, #{encryptState,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.huangjiang.taskcenter.orm.entity.BoardColumn" >
+    insert into board_column
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="boardId != null" >
+        board_id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="definition != null" >
+        definition,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+      <if test="createdAt != null" >
+        created_at,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="updatedAt != null" >
+        updated_at,
+      </if>
+      <if test="updater != null" >
+        updater,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="lockState != null" >
+        lock_state,
+      </if>
+      <if test="hideState != null" >
+        hide_state,
+      </if>
+      <if test="encryptState != null" >
+        encrypt_state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="boardId != null" >
+        #{boardId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="definition != null" >
+        #{definition,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=BIGINT},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedAt != null" >
+        #{updatedAt,jdbcType=BIGINT},
+      </if>
+      <if test="updater != null" >
+        #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=DECIMAL},
+      </if>
+      <if test="lockState != null" >
+        #{lockState,jdbcType=VARCHAR},
+      </if>
+      <if test="hideState != null" >
+        #{hideState,jdbcType=VARCHAR},
+      </if>
+      <if test="encryptState != null" >
+        #{encryptState,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.huangjiang.taskcenter.orm.entity.BoardColumnExample" resultType="java.lang.Integer" >
+    select count(*) from board_column
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update board_column
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.boardId != null" >
+        board_id = #{record.boardId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.definition != null" >
+        definition = #{record.definition,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDelete != null" >
+        is_delete = #{record.isDelete,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdAt != null" >
+        created_at = #{record.createdAt,jdbcType=BIGINT},
+      </if>
+      <if test="record.creator != null" >
+        creator = #{record.creator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatedAt != null" >
+        updated_at = #{record.updatedAt,jdbcType=BIGINT},
+      </if>
+      <if test="record.updater != null" >
+        updater = #{record.updater,jdbcType=VARCHAR},
+      </if>
+      <if test="record.position != null" >
+        position = #{record.position,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lockState != null" >
+        lock_state = #{record.lockState,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hideState != null" >
+        hide_state = #{record.hideState,jdbcType=VARCHAR},
+      </if>
+      <if test="record.encryptState != null" >
+        encrypt_state = #{record.encryptState,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update board_column
+    set id = #{record.id,jdbcType=VARCHAR},
+      board_id = #{record.boardId,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      title = #{record.title,jdbcType=VARCHAR},
+      definition = #{record.definition,jdbcType=VARCHAR},
+      is_delete = #{record.isDelete,jdbcType=VARCHAR},
+      created_at = #{record.createdAt,jdbcType=BIGINT},
+      creator = #{record.creator,jdbcType=VARCHAR},
+      updated_at = #{record.updatedAt,jdbcType=BIGINT},
+      updater = #{record.updater,jdbcType=VARCHAR},
+      position = #{record.position,jdbcType=DECIMAL},
+      lock_state = #{record.lockState,jdbcType=VARCHAR},
+      hide_state = #{record.hideState,jdbcType=VARCHAR},
+      encrypt_state = #{record.encryptState,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.huangjiang.taskcenter.orm.entity.BoardColumn" >
+    update board_column
+    <set >
+      <if test="boardId != null" >
+        board_id = #{boardId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="definition != null" >
+        definition = #{definition,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        created_at = #{createdAt,jdbcType=BIGINT},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedAt != null" >
+        updated_at = #{updatedAt,jdbcType=BIGINT},
+      </if>
+      <if test="updater != null" >
+        updater = #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        position = #{position,jdbcType=DECIMAL},
+      </if>
+      <if test="lockState != null" >
+        lock_state = #{lockState,jdbcType=VARCHAR},
+      </if>
+      <if test="hideState != null" >
+        hide_state = #{hideState,jdbcType=VARCHAR},
+      </if>
+      <if test="encryptState != null" >
+        encrypt_state = #{encryptState,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.huangjiang.taskcenter.orm.entity.BoardColumn" >
+    update board_column
+    set board_id = #{boardId,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      definition = #{definition,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=BIGINT},
+      creator = #{creator,jdbcType=VARCHAR},
+      updated_at = #{updatedAt,jdbcType=BIGINT},
+      updater = #{updater,jdbcType=VARCHAR},
+      position = #{position,jdbcType=DECIMAL},
+      lock_state = #{lockState,jdbcType=VARCHAR},
+      hide_state = #{hideState,jdbcType=VARCHAR},
+      encrypt_state = #{encryptState,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

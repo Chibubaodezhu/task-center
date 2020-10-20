@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huangjiang.taskcenter.orm.mapper.BoardSubscribersMapper" >
+  <resultMap id="BaseResultMap" type="com.huangjiang.taskcenter.orm.entity.BoardSubscribers" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="board_id" property="boardId" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="is_owner" property="isOwner" jdbcType="VARCHAR" />
+    <result column="is_view_all" property="isViewAll" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="created_at" property="createdAt" jdbcType="BIGINT" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="updated_at" property="updatedAt" jdbcType="BIGINT" />
+    <result column="updater" property="updater" jdbcType="VARCHAR" />
+    <result column="is_delete" property="isDelete" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, board_id, status, is_owner, is_view_all, type, user_id, email, created_at, creator, 
+    updated_at, updater, is_delete
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.huangjiang.taskcenter.orm.entity.BoardSubscribersExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from board_subscribers
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from board_subscribers
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from board_subscribers
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.huangjiang.taskcenter.orm.entity.BoardSubscribersExample" >
+    delete from board_subscribers
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.huangjiang.taskcenter.orm.entity.BoardSubscribers" >
+    insert into board_subscribers (id, board_id, status, 
+      is_owner, is_view_all, type, 
+      user_id, email, created_at, 
+      creator, updated_at, updater, 
+      is_delete)
+    values (#{id,jdbcType=VARCHAR}, #{boardId,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{isOwner,jdbcType=VARCHAR}, #{isViewAll,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{createdAt,jdbcType=BIGINT}, 
+      #{creator,jdbcType=VARCHAR}, #{updatedAt,jdbcType=BIGINT}, #{updater,jdbcType=VARCHAR}, 
+      #{isDelete,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.huangjiang.taskcenter.orm.entity.BoardSubscribers" >
+    insert into board_subscribers
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="boardId != null" >
+        board_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="isOwner != null" >
+        is_owner,
+      </if>
+      <if test="isViewAll != null" >
+        is_view_all,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="createdAt != null" >
+        created_at,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="updatedAt != null" >
+        updated_at,
+      </if>
+      <if test="updater != null" >
+        updater,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="boardId != null" >
+        #{boardId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="isOwner != null" >
+        #{isOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="isViewAll != null" >
+        #{isViewAll,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=BIGINT},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedAt != null" >
+        #{updatedAt,jdbcType=BIGINT},
+      </if>
+      <if test="updater != null" >
+        #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.huangjiang.taskcenter.orm.entity.BoardSubscribersExample" resultType="java.lang.Integer" >
+    select count(*) from board_subscribers
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update board_subscribers
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.boardId != null" >
+        board_id = #{record.boardId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isOwner != null" >
+        is_owner = #{record.isOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isViewAll != null" >
+        is_view_all = #{record.isViewAll,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdAt != null" >
+        created_at = #{record.createdAt,jdbcType=BIGINT},
+      </if>
+      <if test="record.creator != null" >
+        creator = #{record.creator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatedAt != null" >
+        updated_at = #{record.updatedAt,jdbcType=BIGINT},
+      </if>
+      <if test="record.updater != null" >
+        updater = #{record.updater,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDelete != null" >
+        is_delete = #{record.isDelete,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update board_subscribers
+    set id = #{record.id,jdbcType=VARCHAR},
+      board_id = #{record.boardId,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      is_owner = #{record.isOwner,jdbcType=VARCHAR},
+      is_view_all = #{record.isViewAll,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      created_at = #{record.createdAt,jdbcType=BIGINT},
+      creator = #{record.creator,jdbcType=VARCHAR},
+      updated_at = #{record.updatedAt,jdbcType=BIGINT},
+      updater = #{record.updater,jdbcType=VARCHAR},
+      is_delete = #{record.isDelete,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.huangjiang.taskcenter.orm.entity.BoardSubscribers" >
+    update board_subscribers
+    <set >
+      <if test="boardId != null" >
+        board_id = #{boardId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="isOwner != null" >
+        is_owner = #{isOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="isViewAll != null" >
+        is_view_all = #{isViewAll,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null" >
+        created_at = #{createdAt,jdbcType=BIGINT},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedAt != null" >
+        updated_at = #{updatedAt,jdbcType=BIGINT},
+      </if>
+      <if test="updater != null" >
+        updater = #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.huangjiang.taskcenter.orm.entity.BoardSubscribers" >
+    update board_subscribers
+    set board_id = #{boardId,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      is_owner = #{isOwner,jdbcType=VARCHAR},
+      is_view_all = #{isViewAll,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=BIGINT},
+      creator = #{creator,jdbcType=VARCHAR},
+      updated_at = #{updatedAt,jdbcType=BIGINT},
+      updater = #{updater,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

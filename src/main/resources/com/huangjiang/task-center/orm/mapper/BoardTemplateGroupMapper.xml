@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.huangjiang.taskcenter.orm.mapper.MessageTemplateMapper" >
-  <resultMap id="BaseResultMap" type="com.huangjiang.taskcenter.orm.entity.messageTemplate" >
+<mapper namespace="com.huangjiang.taskcenter.orm.mapper.BoardTemplateGroupMapper" >
+  <resultMap id="BaseResultMap" type="com.huangjiang.taskcenter.orm.entity.BoardTemplateGroup" >
     <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="code" property="code" jdbcType="VARCHAR" />
-    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="template_id" property="templateId" jdbcType="VARCHAR" />
     <result column="title" property="title" jdbcType="VARCHAR" />
-    <result column="content" property="content" jdbcType="VARCHAR" />
-    <result column="is_html" property="isHtml" jdbcType="VARCHAR" />
-    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="is_delete" property="isDelete" jdbcType="VARCHAR" />
     <result column="created_at" property="createdAt" jdbcType="BIGINT" />
-    <result column="updater" property="updater" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
     <result column="updated_at" property="updatedAt" jdbcType="BIGINT" />
+    <result column="updater" property="updater" jdbcType="VARCHAR" />
+    <result column="color" property="color" jdbcType="VARCHAR" />
+    <result column="position" property="position" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -72,20 +73,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, code, description, title, content, is_html, creator, created_at, updater, updated_at
+    id, template_id, title, is_delete, created_at, creator, updated_at, updater, color, 
+    position, status
   </sql>
-  <select id="selectByCode" parameterType="java.lang.String" resultType="com.huangjiang.taskcenter.orm.entity.MessageTemplateEntity">
-        select id, code, description, title, content, is_html isHtml, creator, created_at createdAt, updater, updated_at updatedAt
-        from message_template
-        where code = #{code}
-    </select>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.huangjiang.taskcenter.orm.entity.messageTemplateExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.huangjiang.taskcenter.orm.entity.BoardTemplateGroupExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from message_template
+    from board_template_group
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -96,134 +93,143 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from message_template
+    from board_template_group
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from message_template
+    delete from board_template_group
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.huangjiang.taskcenter.orm.entity.messageTemplateExample" >
-    delete from message_template
+  <delete id="deleteByExample" parameterType="com.huangjiang.taskcenter.orm.entity.BoardTemplateGroupExample" >
+    delete from board_template_group
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.huangjiang.taskcenter.orm.entity.messageTemplate" >
-    insert into message_template (id, code, description, 
-      title, content, is_html, 
-      creator, created_at, updater, 
-      updated_at)
-    values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
-      #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{isHtml,jdbcType=VARCHAR}, 
-      #{creator,jdbcType=VARCHAR}, #{createdAt,jdbcType=BIGINT}, #{updater,jdbcType=VARCHAR}, 
-      #{updatedAt,jdbcType=BIGINT})
+  <insert id="insert" parameterType="com.huangjiang.taskcenter.orm.entity.BoardTemplateGroup" >
+    insert into board_template_group (id, template_id, title, 
+      is_delete, created_at, creator, 
+      updated_at, updater, color, 
+      position, status)
+    values (#{id,jdbcType=VARCHAR}, #{templateId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{isDelete,jdbcType=VARCHAR}, #{createdAt,jdbcType=BIGINT}, #{creator,jdbcType=VARCHAR}, 
+      #{updatedAt,jdbcType=BIGINT}, #{updater,jdbcType=VARCHAR}, #{color,jdbcType=VARCHAR}, 
+      #{position,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.huangjiang.taskcenter.orm.entity.messageTemplate" >
-    insert into message_template
+  <insert id="insertSelective" parameterType="com.huangjiang.taskcenter.orm.entity.BoardTemplateGroup" >
+    insert into board_template_group
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="code != null" >
-        code,
-      </if>
-      <if test="description != null" >
-        description,
+      <if test="templateId != null" >
+        template_id,
       </if>
       <if test="title != null" >
         title,
       </if>
-      <if test="content != null" >
-        content,
-      </if>
-      <if test="isHtml != null" >
-        is_html,
-      </if>
-      <if test="creator != null" >
-        creator,
+      <if test="isDelete != null" >
+        is_delete,
       </if>
       <if test="createdAt != null" >
         created_at,
       </if>
-      <if test="updater != null" >
-        updater,
+      <if test="creator != null" >
+        creator,
       </if>
       <if test="updatedAt != null" >
         updated_at,
+      </if>
+      <if test="updater != null" >
+        updater,
+      </if>
+      <if test="color != null" >
+        color,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="status != null" >
+        status,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="code != null" >
-        #{code,jdbcType=VARCHAR},
-      </if>
-      <if test="description != null" >
-        #{description,jdbcType=VARCHAR},
+      <if test="templateId != null" >
+        #{templateId,jdbcType=VARCHAR},
       </if>
       <if test="title != null" >
         #{title,jdbcType=VARCHAR},
       </if>
-      <if test="content != null" >
-        #{content,jdbcType=VARCHAR},
-      </if>
-      <if test="isHtml != null" >
-        #{isHtml,jdbcType=VARCHAR},
-      </if>
-      <if test="creator != null" >
-        #{creator,jdbcType=VARCHAR},
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null" >
         #{createdAt,jdbcType=BIGINT},
       </if>
-      <if test="updater != null" >
-        #{updater,jdbcType=VARCHAR},
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
       </if>
       <if test="updatedAt != null" >
         #{updatedAt,jdbcType=BIGINT},
       </if>
+      <if test="updater != null" >
+        #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null" >
+        #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.huangjiang.taskcenter.orm.entity.messageTemplateExample" resultType="java.lang.Integer" >
-    select count(*) from message_template
+  <select id="countByExample" parameterType="com.huangjiang.taskcenter.orm.entity.BoardTemplateGroupExample" resultType="java.lang.Integer" >
+    select count(*) from board_template_group
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update message_template
+    update board_template_group
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=VARCHAR},
       </if>
-      <if test="record.code != null" >
-        code = #{record.code,jdbcType=VARCHAR},
-      </if>
-      <if test="record.description != null" >
-        description = #{record.description,jdbcType=VARCHAR},
+      <if test="record.templateId != null" >
+        template_id = #{record.templateId,jdbcType=VARCHAR},
       </if>
       <if test="record.title != null" >
         title = #{record.title,jdbcType=VARCHAR},
       </if>
-      <if test="record.content != null" >
-        content = #{record.content,jdbcType=VARCHAR},
-      </if>
-      <if test="record.isHtml != null" >
-        is_html = #{record.isHtml,jdbcType=VARCHAR},
-      </if>
-      <if test="record.creator != null" >
-        creator = #{record.creator,jdbcType=VARCHAR},
+      <if test="record.isDelete != null" >
+        is_delete = #{record.isDelete,jdbcType=VARCHAR},
       </if>
       <if test="record.createdAt != null" >
         created_at = #{record.createdAt,jdbcType=BIGINT},
       </if>
-      <if test="record.updater != null" >
-        updater = #{record.updater,jdbcType=VARCHAR},
+      <if test="record.creator != null" >
+        creator = #{record.creator,jdbcType=VARCHAR},
       </if>
       <if test="record.updatedAt != null" >
         updated_at = #{record.updatedAt,jdbcType=BIGINT},
+      </if>
+      <if test="record.updater != null" >
+        updater = #{record.updater,jdbcType=VARCHAR},
+      </if>
+      <if test="record.color != null" >
+        color = #{record.color,jdbcType=VARCHAR},
+      </if>
+      <if test="record.position != null" >
+        position = #{record.position,jdbcType=DECIMAL},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -231,65 +237,70 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update message_template
+    update board_template_group
     set id = #{record.id,jdbcType=VARCHAR},
-      code = #{record.code,jdbcType=VARCHAR},
-      description = #{record.description,jdbcType=VARCHAR},
+      template_id = #{record.templateId,jdbcType=VARCHAR},
       title = #{record.title,jdbcType=VARCHAR},
-      content = #{record.content,jdbcType=VARCHAR},
-      is_html = #{record.isHtml,jdbcType=VARCHAR},
-      creator = #{record.creator,jdbcType=VARCHAR},
+      is_delete = #{record.isDelete,jdbcType=VARCHAR},
       created_at = #{record.createdAt,jdbcType=BIGINT},
+      creator = #{record.creator,jdbcType=VARCHAR},
+      updated_at = #{record.updatedAt,jdbcType=BIGINT},
       updater = #{record.updater,jdbcType=VARCHAR},
-      updated_at = #{record.updatedAt,jdbcType=BIGINT}
+      color = #{record.color,jdbcType=VARCHAR},
+      position = #{record.position,jdbcType=DECIMAL},
+      status = #{record.status,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.huangjiang.taskcenter.orm.entity.messageTemplate" >
-    update message_template
+  <update id="updateByPrimaryKeySelective" parameterType="com.huangjiang.taskcenter.orm.entity.BoardTemplateGroup" >
+    update board_template_group
     <set >
-      <if test="code != null" >
-        code = #{code,jdbcType=VARCHAR},
-      </if>
-      <if test="description != null" >
-        description = #{description,jdbcType=VARCHAR},
+      <if test="templateId != null" >
+        template_id = #{templateId,jdbcType=VARCHAR},
       </if>
       <if test="title != null" >
         title = #{title,jdbcType=VARCHAR},
       </if>
-      <if test="content != null" >
-        content = #{content,jdbcType=VARCHAR},
-      </if>
-      <if test="isHtml != null" >
-        is_html = #{isHtml,jdbcType=VARCHAR},
-      </if>
-      <if test="creator != null" >
-        creator = #{creator,jdbcType=VARCHAR},
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null" >
         created_at = #{createdAt,jdbcType=BIGINT},
       </if>
-      <if test="updater != null" >
-        updater = #{updater,jdbcType=VARCHAR},
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
       </if>
       <if test="updatedAt != null" >
         updated_at = #{updatedAt,jdbcType=BIGINT},
       </if>
+      <if test="updater != null" >
+        updater = #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null" >
+        color = #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        position = #{position,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.huangjiang.taskcenter.orm.entity.messageTemplate" >
-    update message_template
-    set code = #{code,jdbcType=VARCHAR},
-      description = #{description,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.huangjiang.taskcenter.orm.entity.BoardTemplateGroup" >
+    update board_template_group
+    set template_id = #{templateId,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
-      content = #{content,jdbcType=VARCHAR},
-      is_html = #{isHtml,jdbcType=VARCHAR},
-      creator = #{creator,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=VARCHAR},
       created_at = #{createdAt,jdbcType=BIGINT},
+      creator = #{creator,jdbcType=VARCHAR},
+      updated_at = #{updatedAt,jdbcType=BIGINT},
       updater = #{updater,jdbcType=VARCHAR},
-      updated_at = #{updatedAt,jdbcType=BIGINT}
+      color = #{color,jdbcType=VARCHAR},
+      position = #{position,jdbcType=DECIMAL},
+      status = #{status,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

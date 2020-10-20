@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.huangjiang.taskcenter.orm.mapper.MessageTemplateMapper" >
-  <resultMap id="BaseResultMap" type="com.huangjiang.taskcenter.orm.entity.messageTemplate" >
+<mapper namespace="com.huangjiang.taskcenter.orm.mapper.BoardChangeLogMapper" >
+  <resultMap id="BaseResultMap" type="com.huangjiang.taskcenter.orm.entity.BoardChangeLog" >
     <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="code" property="code" jdbcType="VARCHAR" />
-    <result column="description" property="description" jdbcType="VARCHAR" />
-    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="pulse_id" property="pulseId" jdbcType="VARCHAR" />
+    <result column="group_title" property="groupTitle" jdbcType="VARCHAR" />
+    <result column="column_title" property="columnTitle" jdbcType="VARCHAR" />
     <result column="content" property="content" jdbcType="VARCHAR" />
-    <result column="is_html" property="isHtml" jdbcType="VARCHAR" />
-    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="entity" property="entity" jdbcType="VARCHAR" />
+    <result column="event" property="event" jdbcType="VARCHAR" />
     <result column="created_at" property="createdAt" jdbcType="BIGINT" />
-    <result column="updater" property="updater" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
     <result column="updated_at" property="updatedAt" jdbcType="BIGINT" />
+    <result column="updater" property="updater" jdbcType="VARCHAR" />
+    <result column="is_delete" property="isDelete" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -72,20 +74,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, code, description, title, content, is_html, creator, created_at, updater, updated_at
+    id, pulse_id, group_title, column_title, content, entity, event, created_at, creator, 
+    updated_at, updater, is_delete
   </sql>
-  <select id="selectByCode" parameterType="java.lang.String" resultType="com.huangjiang.taskcenter.orm.entity.MessageTemplateEntity">
-        select id, code, description, title, content, is_html isHtml, creator, created_at createdAt, updater, updated_at updatedAt
-        from message_template
-        where code = #{code}
-    </select>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.huangjiang.taskcenter.orm.entity.messageTemplateExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.huangjiang.taskcenter.orm.entity.BoardChangeLogExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from message_template
+    from board_change_log
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -96,134 +94,154 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from message_template
+    from board_change_log
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from message_template
+    delete from board_change_log
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.huangjiang.taskcenter.orm.entity.messageTemplateExample" >
-    delete from message_template
+  <delete id="deleteByExample" parameterType="com.huangjiang.taskcenter.orm.entity.BoardChangeLogExample" >
+    delete from board_change_log
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.huangjiang.taskcenter.orm.entity.messageTemplate" >
-    insert into message_template (id, code, description, 
-      title, content, is_html, 
-      creator, created_at, updater, 
-      updated_at)
-    values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
-      #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{isHtml,jdbcType=VARCHAR}, 
-      #{creator,jdbcType=VARCHAR}, #{createdAt,jdbcType=BIGINT}, #{updater,jdbcType=VARCHAR}, 
-      #{updatedAt,jdbcType=BIGINT})
+  <insert id="insert" parameterType="com.huangjiang.taskcenter.orm.entity.BoardChangeLog" >
+    insert into board_change_log (id, pulse_id, group_title, 
+      column_title, content, entity, 
+      event, created_at, creator, 
+      updated_at, updater, is_delete
+      )
+    values (#{id,jdbcType=VARCHAR}, #{pulseId,jdbcType=VARCHAR}, #{groupTitle,jdbcType=VARCHAR}, 
+      #{columnTitle,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{entity,jdbcType=VARCHAR}, 
+      #{event,jdbcType=VARCHAR}, #{createdAt,jdbcType=BIGINT}, #{creator,jdbcType=VARCHAR}, 
+      #{updatedAt,jdbcType=BIGINT}, #{updater,jdbcType=VARCHAR}, #{isDelete,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.huangjiang.taskcenter.orm.entity.messageTemplate" >
-    insert into message_template
+  <insert id="insertSelective" parameterType="com.huangjiang.taskcenter.orm.entity.BoardChangeLog" >
+    insert into board_change_log
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="code != null" >
-        code,
+      <if test="pulseId != null" >
+        pulse_id,
       </if>
-      <if test="description != null" >
-        description,
+      <if test="groupTitle != null" >
+        group_title,
       </if>
-      <if test="title != null" >
-        title,
+      <if test="columnTitle != null" >
+        column_title,
       </if>
       <if test="content != null" >
         content,
       </if>
-      <if test="isHtml != null" >
-        is_html,
+      <if test="entity != null" >
+        entity,
       </if>
-      <if test="creator != null" >
-        creator,
+      <if test="event != null" >
+        event,
       </if>
       <if test="createdAt != null" >
         created_at,
       </if>
-      <if test="updater != null" >
-        updater,
+      <if test="creator != null" >
+        creator,
       </if>
       <if test="updatedAt != null" >
         updated_at,
+      </if>
+      <if test="updater != null" >
+        updater,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="code != null" >
-        #{code,jdbcType=VARCHAR},
+      <if test="pulseId != null" >
+        #{pulseId,jdbcType=VARCHAR},
       </if>
-      <if test="description != null" >
-        #{description,jdbcType=VARCHAR},
+      <if test="groupTitle != null" >
+        #{groupTitle,jdbcType=VARCHAR},
       </if>
-      <if test="title != null" >
-        #{title,jdbcType=VARCHAR},
+      <if test="columnTitle != null" >
+        #{columnTitle,jdbcType=VARCHAR},
       </if>
       <if test="content != null" >
         #{content,jdbcType=VARCHAR},
       </if>
-      <if test="isHtml != null" >
-        #{isHtml,jdbcType=VARCHAR},
+      <if test="entity != null" >
+        #{entity,jdbcType=VARCHAR},
       </if>
-      <if test="creator != null" >
-        #{creator,jdbcType=VARCHAR},
+      <if test="event != null" >
+        #{event,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null" >
         #{createdAt,jdbcType=BIGINT},
       </if>
-      <if test="updater != null" >
-        #{updater,jdbcType=VARCHAR},
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
       </if>
       <if test="updatedAt != null" >
         #{updatedAt,jdbcType=BIGINT},
       </if>
+      <if test="updater != null" >
+        #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.huangjiang.taskcenter.orm.entity.messageTemplateExample" resultType="java.lang.Integer" >
-    select count(*) from message_template
+  <select id="countByExample" parameterType="com.huangjiang.taskcenter.orm.entity.BoardChangeLogExample" resultType="java.lang.Integer" >
+    select count(*) from board_change_log
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update message_template
+    update board_change_log
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=VARCHAR},
       </if>
-      <if test="record.code != null" >
-        code = #{record.code,jdbcType=VARCHAR},
+      <if test="record.pulseId != null" >
+        pulse_id = #{record.pulseId,jdbcType=VARCHAR},
       </if>
-      <if test="record.description != null" >
-        description = #{record.description,jdbcType=VARCHAR},
+      <if test="record.groupTitle != null" >
+        group_title = #{record.groupTitle,jdbcType=VARCHAR},
       </if>
-      <if test="record.title != null" >
-        title = #{record.title,jdbcType=VARCHAR},
+      <if test="record.columnTitle != null" >
+        column_title = #{record.columnTitle,jdbcType=VARCHAR},
       </if>
       <if test="record.content != null" >
         content = #{record.content,jdbcType=VARCHAR},
       </if>
-      <if test="record.isHtml != null" >
-        is_html = #{record.isHtml,jdbcType=VARCHAR},
+      <if test="record.entity != null" >
+        entity = #{record.entity,jdbcType=VARCHAR},
       </if>
-      <if test="record.creator != null" >
-        creator = #{record.creator,jdbcType=VARCHAR},
+      <if test="record.event != null" >
+        event = #{record.event,jdbcType=VARCHAR},
       </if>
       <if test="record.createdAt != null" >
         created_at = #{record.createdAt,jdbcType=BIGINT},
       </if>
-      <if test="record.updater != null" >
-        updater = #{record.updater,jdbcType=VARCHAR},
+      <if test="record.creator != null" >
+        creator = #{record.creator,jdbcType=VARCHAR},
       </if>
       <if test="record.updatedAt != null" >
         updated_at = #{record.updatedAt,jdbcType=BIGINT},
+      </if>
+      <if test="record.updater != null" >
+        updater = #{record.updater,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDelete != null" >
+        is_delete = #{record.isDelete,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -231,65 +249,75 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update message_template
+    update board_change_log
     set id = #{record.id,jdbcType=VARCHAR},
-      code = #{record.code,jdbcType=VARCHAR},
-      description = #{record.description,jdbcType=VARCHAR},
-      title = #{record.title,jdbcType=VARCHAR},
+      pulse_id = #{record.pulseId,jdbcType=VARCHAR},
+      group_title = #{record.groupTitle,jdbcType=VARCHAR},
+      column_title = #{record.columnTitle,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=VARCHAR},
-      is_html = #{record.isHtml,jdbcType=VARCHAR},
-      creator = #{record.creator,jdbcType=VARCHAR},
+      entity = #{record.entity,jdbcType=VARCHAR},
+      event = #{record.event,jdbcType=VARCHAR},
       created_at = #{record.createdAt,jdbcType=BIGINT},
+      creator = #{record.creator,jdbcType=VARCHAR},
+      updated_at = #{record.updatedAt,jdbcType=BIGINT},
       updater = #{record.updater,jdbcType=VARCHAR},
-      updated_at = #{record.updatedAt,jdbcType=BIGINT}
+      is_delete = #{record.isDelete,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.huangjiang.taskcenter.orm.entity.messageTemplate" >
-    update message_template
+  <update id="updateByPrimaryKeySelective" parameterType="com.huangjiang.taskcenter.orm.entity.BoardChangeLog" >
+    update board_change_log
     <set >
-      <if test="code != null" >
-        code = #{code,jdbcType=VARCHAR},
+      <if test="pulseId != null" >
+        pulse_id = #{pulseId,jdbcType=VARCHAR},
       </if>
-      <if test="description != null" >
-        description = #{description,jdbcType=VARCHAR},
+      <if test="groupTitle != null" >
+        group_title = #{groupTitle,jdbcType=VARCHAR},
       </if>
-      <if test="title != null" >
-        title = #{title,jdbcType=VARCHAR},
+      <if test="columnTitle != null" >
+        column_title = #{columnTitle,jdbcType=VARCHAR},
       </if>
       <if test="content != null" >
         content = #{content,jdbcType=VARCHAR},
       </if>
-      <if test="isHtml != null" >
-        is_html = #{isHtml,jdbcType=VARCHAR},
+      <if test="entity != null" >
+        entity = #{entity,jdbcType=VARCHAR},
       </if>
-      <if test="creator != null" >
-        creator = #{creator,jdbcType=VARCHAR},
+      <if test="event != null" >
+        event = #{event,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null" >
         created_at = #{createdAt,jdbcType=BIGINT},
       </if>
-      <if test="updater != null" >
-        updater = #{updater,jdbcType=VARCHAR},
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
       </if>
       <if test="updatedAt != null" >
         updated_at = #{updatedAt,jdbcType=BIGINT},
       </if>
+      <if test="updater != null" >
+        updater = #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.huangjiang.taskcenter.orm.entity.messageTemplate" >
-    update message_template
-    set code = #{code,jdbcType=VARCHAR},
-      description = #{description,jdbcType=VARCHAR},
-      title = #{title,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.huangjiang.taskcenter.orm.entity.BoardChangeLog" >
+    update board_change_log
+    set pulse_id = #{pulseId,jdbcType=VARCHAR},
+      group_title = #{groupTitle,jdbcType=VARCHAR},
+      column_title = #{columnTitle,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
-      is_html = #{isHtml,jdbcType=VARCHAR},
-      creator = #{creator,jdbcType=VARCHAR},
+      entity = #{entity,jdbcType=VARCHAR},
+      event = #{event,jdbcType=VARCHAR},
       created_at = #{createdAt,jdbcType=BIGINT},
+      creator = #{creator,jdbcType=VARCHAR},
+      updated_at = #{updatedAt,jdbcType=BIGINT},
       updater = #{updater,jdbcType=VARCHAR},
-      updated_at = #{updatedAt,jdbcType=BIGINT}
+      is_delete = #{isDelete,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

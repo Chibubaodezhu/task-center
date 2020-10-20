@@ -1,6 +1,5 @@
 package com.huangjiang.taskcenter.orm.mapper;
 
-import com.huangjiang.taskcenter.orm.entity.PermissionEntity;
 import com.huangjiang.taskcenter.orm.entity.RoleEntity;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
